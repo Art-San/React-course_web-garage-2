@@ -6,13 +6,16 @@ export function DataFetcher() {
   const [loading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    let isMounted = true
     const fetchData = async () => {
       try {
         const response = await fetch(
           'https://jsonplaceholder.typicode.com/posts?_limit=5'
         )
         const result = await response.json()
-        setData(result)
+        if (isMounted) {
+          setData(result)
+        }
       } catch (error) {
         console.error(error.message)
       } finally {
@@ -21,6 +24,10 @@ export function DataFetcher() {
     }
 
     fetchData()
+
+    return () => {
+      isMounted = false
+    }
   }, [count])
 
   if (loading) {
@@ -29,18 +36,13 @@ export function DataFetcher() {
 
   return (
     <>
-      <ul className="">
+      <ul>
         {data.map((item) => (
           <li key={item.id}>{item.title}</li>
         ))}
       </ul>
       <p>{count}</p>
-      <button
-        className=" bg-green-400 border rounded px-1.5 py-1"
-        onClick={() => setCount(count + 1)}
-      >
-        Увеличить
-      </button>
+      <button onClick={() => setCount(count + 1)}>Увеличить</button>
     </>
   )
 }

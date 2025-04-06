@@ -1,16 +1,16 @@
-import { useEffect } from 'react'
-import { DataFetcher } from './components/DataFetcher'
-import { Counter } from './components/Counter'
+import { useState } from 'react'
+import LifecycleDemo from './components/LifecycleDemo'
 
 function App() {
-  useEffect
+  const [showComponent, setShowComponent] = useState(true)
+
   return (
-    <>
-      <div className=" px-5 pt-2.5">
-        {/* <DataFetcher /> */}
-        <Counter />
-      </div>
-    </>
+    <div>
+      <button onClick={() => setShowComponent(!showComponent)}>
+        {showComponent ? 'Скрыть компонент' : 'Показать компонент'}
+      </button>
+      {showComponent && <LifecycleDemo />}
+    </div>
   )
 }
 
