@@ -1,7 +1,15 @@
+import { useEffect } from 'react'
+import { DataFetcher } from './components/DataFetcher'
+import { Counter } from './components/Counter'
+
 function App() {
+  useEffect
   return (
     <>
-      <h1 className=" text-3xl font-bold underline text-red-400">еуые</h1>
+      <div className=" px-5 pt-2.5">
+        {/* <DataFetcher /> */}
+        <Counter />
+      </div>
     </>
   )
 }
