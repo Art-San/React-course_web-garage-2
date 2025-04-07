@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import ChildComponent from './components/ChildComponent'
 
-function App() {
+function ChildComponent() {
   const [elementText, setElementText] = useState('')
 
   const handleClick = () => {
@@ -10,16 +9,14 @@ function App() {
   }
 
   return (
-    <div className=" m-20">
-      <div id="myElement">Это элемент с ID</div>
-      <button className=" border bg-amber-300 px-3 py-1" onClick={handleClick}>
+    <div>
+      <div id="myElement">Это другой элемент с таким же ID</div>
+      <button className=" border bg-green-700 px-3 py-1" onClick={handleClick}>
         Получить текст элемента
       </button>
       <p>Текст элемента: {elementText}</p>
-      <p>----------------</p>
-      <ChildComponent />
     </div>
   )
 }
 
-export default App
+export default ChildComponent
