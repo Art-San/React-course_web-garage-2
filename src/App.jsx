@@ -1,24 +1,18 @@
-import { useState } from 'react'
-import ChildComponent from './components/ChildComponent'
+import { ProductList } from './components/ProductList'
 
 function App() {
-  const [elementText, setElementText] = useState('')
+  const products = []
 
-  const handleClick = () => {
-    const element = document.getElementById('myElement')
-    setElementText(element.textContent)
+  for (let i = 0; i < 100; i++) {
+    products.push({
+      id: i + 1,
+      name: `Продукт ${i + 1}`
+    })
   }
-
   return (
-    <div className=" m-20">
-      <div id="myElement">Это элемент с ID</div>
-      <button className=" border bg-amber-300 px-3 py-1" onClick={handleClick}>
-        Получить текст элемента
-      </button>
-      <p>Текст элемента: {elementText}</p>
-      <p>----------------</p>
-      <ChildComponent />
-    </div>
+    <>
+      <ProductList products={products} />
+    </>
   )
 }
 
