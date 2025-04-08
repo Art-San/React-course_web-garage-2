@@ -1,18 +1,15 @@
-import { ProductList } from './components/ProductList'
+import { ItemList } from './components/ItemList'
+import ParentComponent from './components/ParentComponent'
+import UserComponent from './components/UserComponent'
+import './test.css'
 
 function App() {
-  const products = []
-
-  for (let i = 0; i < 100; i++) {
-    products.push({
-      id: i + 1,
-      name: `Продукт ${i + 1}`
-    })
-  }
   return (
-    <>
-      <ProductList products={products} />
-    </>
+    <div className=" flex flex-row">
+      {/* <ItemList /> */}
+      {/* <ParentComponent /> */}
+      <UserComponent />
+    </div>
   )
 }
 
