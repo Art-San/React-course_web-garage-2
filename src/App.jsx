@@ -1,15 +1,17 @@
-import { ItemList } from './components/ItemList'
-import ParentComponent from './components/ParentComponent'
-import UserComponent from './components/UserComponent'
-import './test.css'
+import { UserContext } from './contexts/UserContext'
+
+import Header from './components/Header'
 
 function App() {
+  const user = {
+    name: 'Иван',
+    email: 'ivan@example.com'
+  }
+
   return (
-    <div className=" flex flex-row">
-      {/* <ItemList /> */}
-      {/* <ParentComponent /> */}
-      <UserComponent />
-    </div>
+    <UserContext.Provider value={user}>
+      <Header />
+    </UserContext.Provider>
   )
 }
 
