@@ -1,49 +1,30 @@
-import useForm from './hooks/useForm'
-import { LoginForm } from './LoginForm'
-import { RegisterForm } from './RegisterForm'
-import { ProfileForm } from './ProfileForm'
+import Setting from './components/Setting'
+import { useLocalStorage } from './hooks/useLocalStorage'
 
 const App = () => {
-  const loginData = useForm({})
-  const registerData = useForm({})
-  const profileData = useForm({})
-
-  const handleSubmit = (e, formType) => {
-    e.preventDefault()
-    if (formType === 'login') {
-      console.log('Данные авторизации', loginData.formData)
-    } else if (formType === 'password') {
-      console.log('Данные регистрации', registerData.formData)
-    } else {
-      console.log(123, 'Иные данные', profileData.formData)
-    }
-  }
+  const [name, handleSetName, handleRemoveName] = useLocalStorage(
+    'name',
+    'Гость'
+  )
 
   return (
-    <div className=" flex flex-col items-center justify-center gap-6">
-      <div className="flex gap-9">
-        <div>
-          <h1 className=" text-center">Авторизация</h1>
-          <LoginForm
-            formData={loginData.formData}
-            handleChange={loginData.handleChange}
-            handleSubmit={(e) => handleSubmit(e, 'login')}
-          />
-        </div>
-        <div className="">
-          <h1 className=" text-center">Регистрация</h1>
-          <RegisterForm
-            {...registerData}
-            handleSubmit={(e) => handleSubmit(e, 'password')}
-          />
-        </div>
-      </div>
-      <div className="">
-        <p>---------------</p>
-        <ProfileForm
-          {...profileData}
-          // handleSubmit={(e) => handleSubmit(e, '')}
+    <div className=" flex flex-col h-screen items-center justify-center">
+      <div className="flex flex-col w-[300px] gap-4">
+        <h1 className=" text-4xl">Привет, {name}!</h1>
+        <input
+          className=" border p-1.5 invalid:border-pink-500 invalid:text-pink-600 focus:border-sky-500 focus:outline focus:outline-sky-500 focus:invalid:border-pink-500 focus:invalid:outline-pink-500 disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none dark:disabled:border-gray-700 dark:disabled:bg-gray-800/20 "
+          type="text"
+          value={name}
+          onChange={(e) => handleSetName(e.target.value)}
+          placeholder="Введите ваше имя"
         />
+        <button
+          className=" bg-sky-500 hover:bg-sky-700 text-white px-4 py-2 rounded inter-events-none md:pointer-events-auto"
+          onClick={handleRemoveName}
+        >
+          Очистить имя
+        </button>
+        <Setting />
       </div>
     </div>
   )
