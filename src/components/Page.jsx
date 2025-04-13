@@ -24,22 +24,30 @@ function Page() {
       setNewComment('')
 
       postRef.current.scrollAndFocus()
+      console.log(11, inputRef.current)
       inputRef.current.focus()
     }
   }
 
   return (
-    <div>
+    <div className=" w-[400px]">
       <h1>Страница с постом</h1>
+
       <Post ref={postRef} comments={comments} />
       <input
+        className=" border rounded border-gray-400 p-1"
         ref={inputRef}
         type="text"
         placeholder="Введите комментарий..."
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
       />
-      <button onClick={handleAddComment}>Добавить комментарий</button>
+      <button
+        className=" bg-sky-500 px-2 py-1 ml-1 rounded "
+        onClick={handleAddComment}
+      >
+        Добавить комментарий
+      </button>
     </div>
   )
 }

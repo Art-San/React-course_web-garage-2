@@ -37,7 +37,7 @@ function ParentComponent() {
           ? "url('./eq.gif') center/cover no-repeat"
           : '#121212',
         minHeight: '300px', // Минимальная высота для видимости фона
-        height: '100vh',
+        height: '400px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -59,6 +59,7 @@ function ParentComponent() {
       />
       <button
         onClick={handlePlay}
+        className=" bg-amber-50 px-3 py-1 rounded-2xl"
         style={{
           fontSize: '20px',
           cursor: 'pointer'

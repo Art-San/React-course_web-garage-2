@@ -3,7 +3,7 @@ import { useRef } from 'react'
 
 const Post = ({ ref, comments }) => {
   const commentsRef = useRef(null)
-  const inputRef = useRef(null)
+  // const inputRef = useRef(null)
 
   useImperativeHandle(ref, () => ({
     scrollAndFocus: () => {
@@ -11,9 +11,10 @@ const Post = ({ ref, comments }) => {
         commentsRef.current.scrollTop = commentsRef.current.scrollHeight
         console.dir(commentsRef.current)
       }
-      if (inputRef.current) {
-        inputRef.current.focus()
-      }
+
+      // if (inputRef.current) {
+      //   inputRef.current.focus()
+      // }
     }
   }))
 
