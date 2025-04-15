@@ -19,8 +19,9 @@ export function FilterExample() {
   }
 
   return (
-    <div>
+    <div className=" flex flex-col gap-5">
       <input
+        className=" px-2 py-0.5 border text-xl border-sky-300 rounded focus:outline-sky-500  "
         type="text"
         value={query}
         onChange={handleSearch}

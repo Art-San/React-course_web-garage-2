@@ -1,8 +1,18 @@
+import { BasicExample } from './components/BasicExample'
+import { FilterExample } from './components/FilterExample'
+import { SlowRenderExample } from './components/SlowRenderExample'
+import { SyncTabExample } from './components/SyncTabExapmle'
+import { TabExample } from './components/TabExample'
+
 const App = () => {
   return (
     <>
-      <div className="flex  flex-col items-center mt-7 gap-10">
-        <h1>Топ</h1>
+      <div className=" m-10 flex flex-col gap-10 items-center">
+        <BasicExample />
+        {/* <SlowRenderExample /> */}
+        {/* <FilterExample /> */}
+        {/* <TabExample /> */}
+        <SyncTabExample />
       </div>
     </>
   )
