@@ -1,74 +1,52 @@
-import AccessibilityComponent from './components/AccessibilityComponents'
-import Form from './components/Form'
-import AccessibleForms from './components/AccessibleForms'
-import { useId } from 'react'
+import { useState } from 'react'
+import { TodoItem } from './components/TodoItem'
+import { AddTodo } from './components/AddTodo'
+import ToggleTheme from './components/ToggleTheme'
+import { getInitialTheme } from './helpers/getInitialTheme'
+import { toggleTheme } from './helpers/toggleTheme'
 
 function App() {
-  const id = useId()
-  const emailId = `${useId()}-email`
-  return (
-    <>
-      <div className=" flex flex-col m-5 gap-1.5 items-center justify-center">
-        <div className=" flex flex-col m-5 gap-1.5 items-center justify-center">
-          <label htmlFor={emailId}>Введите email</label>
-          <input
-            className=" border border-cyan-300 focus:outline-sky-600"
-            type="email"
-            id={emailId}
-          />
+  const initialTodos = [
+    { id: 1, text: 'Изучить React' },
+    { id: 2, text: 'Сделать TODO app' },
+    { id: 3, text: 'Сделать деплой' }
+  ]
+  const [todos, setTodos] = useState(initialTodos)
+  const [theme, setTheme] = useState(getInitialTheme())
 
-          <label className=" flex gap-2">
-            <p>Согласен с условиями пользования</p>
-            <input type="checkbox" />
-          </label>
-          <br />
-          <label htmlFor={id}>Введите пароль</label>
-          {/*Какой-то код */}
-          <input
-            className=" border border-cyan-300 focus:outline-sky-600"
-            type="password"
-            id={id}
-          />
+  const onAdd = (text) => {
+    const newTodo = {
+      id: Date.now(),
+      text
+    }
+    setTodos([...todos, newTodo])
+  }
+
+  const onDelete = (id) => {
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id))
+  }
+
+  return (
+    <div
+      data-theme={theme}
+      className="flex flex-col min-h-screen justify-center items-center bg-page-light dark:bg-page-dark p-6"
+    >
+      <ToggleTheme toggleTheme={() => toggleTheme(setTheme)} theme={theme} />
+      <div className="mx-auto flex flex-col gap-3">
+        <h1 className="text-4xl font-bold text-center text-gray-800 dark:text-white mb-8">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">
+            My Todo App
+          </span>
+        </h1>
+        <AddTodo onAdd={onAdd} />
+        <div className="flex flex-col gap-3">
+          {todos.map((todo) => (
+            <TodoItem key={todo.id} todo={todo} onDelete={onDelete} />
+          ))}
         </div>
-        {/* <AccessibilityComponent /> */}
-        <Form />
-        <AccessibleForms />
       </div>
-    </>
+    </div>
   )
 }
 
 export default App
-
-// function App() {
-//   const id = useId()
-//   const emailId = `${useId()}-email`
-//   return (
-//     <>
-//       <div className=" flex flex-col m-5 gap-1.5 items-center justify-center">
-//         <label htmlFor={emailId}>Введите email</label>
-//         <input
-//           className=" border border-cyan-300 focus:outline-sky-600"
-//           type="email"
-//           id={emailId}
-//         />
-
-//         <label className=" flex gap-2">
-//           <p>Согласен с условиями пользования</p>
-//           <input type="checkbox" />
-//         </label>
-//         <br />
-//         <label htmlFor={id}>Введите пароль</label>
-//         {/*Какой-то код */}
-//         <input
-//           className=" border border-cyan-300 focus:outline-sky-600"
-//           type="password"
-//           id={id}
-//         />
-//       </div>
-//       <Form />
-//     </>
-//   )
-// }
-
-// export default App
