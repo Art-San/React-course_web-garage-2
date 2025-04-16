@@ -1,47 +1,74 @@
-import { useState, lazy, Suspense } from 'react'
-
-const TextComponent = lazy(() => import('./components/TextComponent'))
-const TodoComponent = lazy(() => import('./components/TodoComponent'))
+import AccessibilityComponent from './components/AccessibilityComponents'
+import Form from './components/Form'
+import AccessibleForms from './components/AccessibleForms'
+import { useId } from 'react'
 
 function App() {
-  const [showText, setShowText] = useState(false)
-  const [showTodo, setShowTodo] = useState(false)
-
+  const id = useId()
+  const emailId = `${useId()}-email`
   return (
-    <div>
-      <div className=" m-10  flex flex-col items-center gap-1.5">
-        <h2 className=" font-semibold text-2xl">1. Загрузка компонента</h2>
-        <button
-          className=" bg-sky-500 px-2 py-1 rounded text-white hover:bg-sky-600"
-          onClick={() => {
-            setShowText(!showText)
-          }}
-        >
-          <Suspense fallback={<div>Компонент загружается</div>}>
-            {showText ? 'Скрыть' : 'Показать'} компонент
-          </Suspense>
-        </button>
+    <>
+      <div className=" flex flex-col m-5 gap-1.5 items-center justify-center">
+        <div className=" flex flex-col m-5 gap-1.5 items-center justify-center">
+          <label htmlFor={emailId}>Введите email</label>
+          <input
+            className=" border border-cyan-300 focus:outline-sky-600"
+            type="email"
+            id={emailId}
+          />
 
-        {showText && <TextComponent />}
-
-        <h2 className=" font-semibold text-2xl">
-          2. Загрузка компонента списка задач
-        </h2>
-        <button
-          className=" bg-sky-500 px-2 py-1 rounded text-white hover:bg-sky-600"
-          onClick={() => {
-            setShowTodo(!showTodo)
-          }}
-        >
-          {showTodo ? 'Скрыть' : 'Показать'} список задач
-        </button>
-
-        <Suspense fallback={<div>Компонент загружается</div>}>
-          {showTodo && <TodoComponent />}
-        </Suspense>
+          <label className=" flex gap-2">
+            <p>Согласен с условиями пользования</p>
+            <input type="checkbox" />
+          </label>
+          <br />
+          <label htmlFor={id}>Введите пароль</label>
+          {/*Какой-то код */}
+          <input
+            className=" border border-cyan-300 focus:outline-sky-600"
+            type="password"
+            id={id}
+          />
+        </div>
+        {/* <AccessibilityComponent /> */}
+        <Form />
+        <AccessibleForms />
       </div>
-    </div>
+    </>
   )
 }
 
 export default App
+
+// function App() {
+//   const id = useId()
+//   const emailId = `${useId()}-email`
+//   return (
+//     <>
+//       <div className=" flex flex-col m-5 gap-1.5 items-center justify-center">
+//         <label htmlFor={emailId}>Введите email</label>
+//         <input
+//           className=" border border-cyan-300 focus:outline-sky-600"
+//           type="email"
+//           id={emailId}
+//         />
+
+//         <label className=" flex gap-2">
+//           <p>Согласен с условиями пользования</p>
+//           <input type="checkbox" />
+//         </label>
+//         <br />
+//         <label htmlFor={id}>Введите пароль</label>
+//         {/*Какой-то код */}
+//         <input
+//           className=" border border-cyan-300 focus:outline-sky-600"
+//           type="password"
+//           id={id}
+//         />
+//       </div>
+//       <Form />
+//     </>
+//   )
+// }
+
+// export default App
