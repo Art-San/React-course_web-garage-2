@@ -1,35 +1,46 @@
-import { useDeferredValue, useEffect, useState } from 'react'
-import { SearchList } from './components/SearchList'
+import { useState, lazy, Suspense } from 'react'
+
+const TextComponent = lazy(() => import('./components/TextComponent'))
+const TodoComponent = lazy(() => import('./components/TodoComponent'))
 
 function App() {
-  const [query, setQuery] = useState('')
-  console.log('**************')
-  console.log('Текст в поле input:', query)
-  const deferredQuery = useDeferredValue(query)
-
-  useEffect(() => {
-    console.log('App useEffect query:', query)
-  }, [query])
-
-  useEffect(() => {
-    console.log('App useEffect deferredQuery:', deferredQuery)
-  }, [deferredQuery])
+  const [showText, setShowText] = useState(false)
+  const [showTodo, setShowTodo] = useState(false)
 
   return (
-    <>
-      <div className="m-10 flex flex-col">
-        <input
-          className=" border w-60 border-sky-300 focus:border-inl focus:outline-sky-500"
-          type="text"
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        {query !== deferredQuery ? (
-          <span>Обновляем...</span>
-        ) : (
-          <SearchList query={deferredQuery} />
-        )}
+    <div>
+      <div className=" m-10  flex flex-col items-center gap-1.5">
+        <h2 className=" font-semibold text-2xl">1. Загрузка компонента</h2>
+        <button
+          className=" bg-sky-500 px-2 py-1 rounded text-white hover:bg-sky-600"
+          onClick={() => {
+            setShowText(!showText)
+          }}
+        >
+          <Suspense fallback={<div>Компонент загружается</div>}>
+            {showText ? 'Скрыть' : 'Показать'} компонент
+          </Suspense>
+        </button>
+
+        {showText && <TextComponent />}
+
+        <h2 className=" font-semibold text-2xl">
+          2. Загрузка компонента списка задач
+        </h2>
+        <button
+          className=" bg-sky-500 px-2 py-1 rounded text-white hover:bg-sky-600"
+          onClick={() => {
+            setShowTodo(!showTodo)
+          }}
+        >
+          {showTodo ? 'Скрыть' : 'Показать'} список задач
+        </button>
+
+        <Suspense fallback={<div>Компонент загружается</div>}>
+          {showTodo && <TodoComponent />}
+        </Suspense>
       </div>
-    </>
+    </div>
   )
 }
 
