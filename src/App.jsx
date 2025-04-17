@@ -12,17 +12,6 @@ function App() {
   const [todos, setTodos] = useState([])
   const [theme, setTheme] = useState(getInitialTheme())
 
-  // useEffect(() => {
-  //   const loadInitialData = async () => {
-  //     const savedTodos = JSON.parse(
-  //       localStorage.getItem(LOCAL_STORAGE_KEY) || '[]'
-  //     )
-
-  //     setTodos(savedTodos)
-  //   }
-  //   loadInitialData()
-  // }, [])
-
   useEffect(() => {
     const loadInitialData = async () => {
       const savedTodos = JSON.parse(
@@ -112,23 +101,6 @@ function App() {
       setTodos(todos)
     }
   }
-
-  // const toggleComplete = (id) => {
-  //   const todoToUpdate = todos.find((todo) => todo.id === id)
-
-  //   if (!todoToUpdate) return
-
-  //   const updatedTodo = {
-  //     ...todoToUpdate,
-  //     completed: !todoToUpdate.completed
-  //   }
-
-  //   const updatedTodos = todos.map((todo) =>
-  //     todo.id === id ? updatedTodo : todo
-  //   )
-
-  //   setTodos(updatedTodos)
-  // }
 
   const onDelete = async (id) => {
     const previousTodos = todos
