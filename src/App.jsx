@@ -4,6 +4,7 @@ import { AddTodo } from './components/AddTodo'
 import ToggleTheme from './components/ToggleTheme'
 import { getInitialTheme } from './helpers/getInitialTheme'
 import { toggleTheme } from './helpers/toggleTheme'
+import DeleteConfirmModal from './components/DeleteConfirmModal'
 
 const LOCAL_STORAGE_KEY = 'todos'
 const API_URL = 'https://67b41ad7392f4aa94fa956ee.mockapi.io/api/v1/todos'
@@ -11,6 +12,8 @@ const API_URL = 'https://67b41ad7392f4aa94fa956ee.mockapi.io/api/v1/todos'
 function App() {
   const [todos, setTodos] = useState([])
   const [theme, setTheme] = useState(getInitialTheme())
+  const [deletingId, setDeletingId] = useState(null)
+  const [isDeletingCompleted, setIsDeletingCompleted] = useState(false)
 
   useEffect(() => {
     const loadInitialData = async () => {
@@ -102,7 +105,7 @@ function App() {
     }
   }
 
-  const onDelete = async (id) => {
+  const handleDelete = async (id) => {
     const previousTodos = todos
     const updatedTodos = todos.filter((todo) => todo.id !== id)
     setTodos(updatedTodos)
@@ -114,6 +117,45 @@ function App() {
       console.error('Ошибка удаления:', error)
       setTodos(previousTodos)
     }
+  }
+
+  const hasCompletedTodos = todos.some((todo) => todo.completed)
+
+  const handleDeleteCompleted = () => {
+    if (!hasCompletedTodos) return
+    setIsDeletingCompleted(true)
+  }
+
+  const confirmDeleteCompleted = async () => {
+    const originalTodos = [...todos]
+
+    const completedIds = originalTodos
+      .filter((t) => t.completed)
+      .map((t) => t.id)
+
+    setTodos(originalTodos.filter((todo) => !todo.completed))
+
+    const failedIds = []
+
+    for (const id of completedIds) {
+      try {
+        await fetch(`${API_URL}/${id}`, { method: 'DELETE' })
+      } catch (error) {
+        console.error(`Ошибка удаления задачи ${id}:`, error)
+        failedIds.push(id)
+      }
+    }
+
+    if (failedIds.length > 0) {
+      setTodos(
+        originalTodos.filter(
+          (todo) => !todo.completed || failedIds.includes(todo.id)
+        )
+      )
+    }
+
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos))
+    setIsDeletingCompleted(false)
   }
 
   return (
@@ -134,12 +176,39 @@ function App() {
             <TodoItem
               key={todo.id}
               todo={todo}
-              onDelete={onDelete}
+              onDelete={() => setDeletingId(todo.id)}
               onToggleComplete={toggleComplete}
             />
           ))}
         </div>
       </div>
+      {deletingId && (
+        <DeleteConfirmModal
+          onCancel={() => setDeletingId(null)}
+          onConfirm={() => {
+            handleDelete(deletingId)
+            setDeletingId(null)
+          }}
+          message="Вы уверены, что хотите удалить эту задачу?"
+        />
+      )}
+      {isDeletingCompleted && (
+        <DeleteConfirmModal
+          onCancel={() => setIsDeletingCompleted(false)}
+          onConfirm={confirmDeleteCompleted}
+          message={`Вы уверены, что хотите удалить все выполненные задачи (${
+            todos.filter((todo) => todo.completed).length
+          })?`}
+        />
+      )}
+      {hasCompletedTodos && (
+        <button
+          onClick={handleDeleteCompleted}
+          className="px-4 py-2 mt-4 bg-red-500 text-white rounded hover:bg-red-600 transition-colors cursor-pointer"
+        >
+          Удалить выполненные
+        </button>
+      )}
     </div>
   )
 }
