@@ -22,7 +22,8 @@ function App() {
     handleDelete,
     handleDeleteCompleted,
     confirmDeleteCompleted,
-    hasCompletedTodos
+    hasCompletedTodos,
+    onReorder
   } = useTodoManagement()
 
   return (
@@ -37,6 +38,7 @@ function App() {
         handleUpdate={handleUpdate}
         toggleComplete={toggleComplete}
         setDeletingId={setDeletingId}
+        onReorder={onReorder}
       />
 
       <DeleteConfirmModal
